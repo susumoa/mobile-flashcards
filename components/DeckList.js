@@ -1,14 +1,21 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import Deck from './Deck'
+import DeckTeaser from './DeckTeaser'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 class DeckList extends Component {
   render() {
     return (
       <View>
-        <Deck />
-        <Deck />
-        <Deck />
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck')}>
+          <DeckTeaser />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck')}>
+          <DeckTeaser />
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.props.navigation.navigate('Deck')}>
+          <DeckTeaser />
+        </TouchableOpacity>
       </View>
     )
   }

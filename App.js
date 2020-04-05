@@ -1,24 +1,23 @@
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, View, StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
+import { createStackNavigator } from '@react-navigation/stack'
 import DeckList from './components/DeckList'
 import Quiz from './components/Quiz'
 import NewDeck from './components/NewDeck'
 import NewCard from './components/NewCard'
+import Deck from './components/Deck'
 
 const Tab = createMaterialTopTabNavigator()
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <NavigationContainer>
-          <Tab.Navigator
+function Tabs() {
+  return (
+    <Tab.Navigator
             initialRouteName='Deck List'
-            barStyle={{
+            style={{
               height: 56,
-              backgroundColor: 'blue',
+              backgroundColor: 'red',
               shadowColor: 'rgba(0, 0, 0, 0.24)',
                 shadowOffset: {
                   width: 0,
@@ -42,6 +41,41 @@ export default class App extends React.Component {
             }}
           />
           </Tab.Navigator>
+  )
+}
+
+const Stack = createStackNavigator()
+
+export default class App extends React.Component {
+  render() {
+    return (
+      <View style={{flex: 1}}>
+      <StatusBar />
+        <NavigationContainer>
+          <Stack.Navigator
+            initialRouteName='Home'
+            headerMode='screen'
+          >
+            <Stack.Screen
+              name='Home'
+              component={Tabs}
+              options={{
+                headerShown: false
+              }}
+            />
+            <Stack.Screen
+              name='Deck'
+              component={Deck}
+            />
+            <Stack.Screen
+              name='New Card'
+              component={NewCard}
+            />
+            <Stack.Screen
+              name='Quiz'
+              component={Quiz}
+            />
+          </Stack.Navigator>
         </NavigationContainer>
       </View>
     )

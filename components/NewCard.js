@@ -23,6 +23,8 @@ class NewCard extends Component {
 
     // AsyncStorage.addCardToDeck
 
+    this.props.navigation.navigate('Deck')
+
     console.log('submitted')
   }
 
