@@ -7,6 +7,8 @@ class DeckList extends Component {
     return (
       <View>
         <Deck />
+        <Deck />
+        <Deck />
       </View>
     )
   }
