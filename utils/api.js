@@ -5,7 +5,7 @@ export const FLASHCARD_STORAGE_KEY = 'MobileFlashCards:decklist'
 export function getDecks() {
   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
     .then((res) => {
-      console.log('Parsed decks result: ', JSON.parse(res))
+      // console.log('Parsed decks result: ', JSON.parse(res))
       return JSON.parse(res)
     })
 }

@@ -48,9 +48,9 @@ function Tabs() {
 const Stack = createStackNavigator()
 
 export default class App extends React.Component {
-//   componentDidMount() {
-//     AsyncStorage.clear()
-//   }
+  // componentDidMount() {
+  //   AsyncStorage.clear()
+  // }
   render() {
     return (
       <View style={{flex: 1}}>

@@ -15,30 +15,47 @@ class NewDeck extends Component {
   submitDeckTitle = () => {
     const { value } = this.state
 
+    // const decks = getDecks().then(res => {
+    //   console.log('First result: ', res)
+    //   return res
+    // })
 
-    Object.keys(getDecks()).some((e) => e === value)
-        ? Alert.alert(
+    // Object.keys(getDecks().then(res => {
+    //   console.log('First result: ', res)
+    //   return res
+    // })).some(e => e === value)
+    //     ? Alert.alert(
+    //       'Error',
+    //       'Already existing deck',
+    //       [{text: 'OK', onPress: () => console.log('OK Pressed')},],
+    //       {cancelable: false},
+    //     )
+    //     : saveDeckTitle(value)
+
+
+    // this.props.navigation.navigate('New Deck')
+
+   getDecks().then(res => {
+     console.log('Decks before: ', res)
+     Object.keys(res).some(e => e === value)
+      ? Alert.alert(
           'Error',
-          'Already existing title',
+          'Already existing deck',
           [{text: 'OK', onPress: () => console.log('OK Pressed')},],
           {cancelable: false},
         )
-        : saveDeckTitle(value)
-
-    // return saveDeckTitle(value)
-    //   .then(console.log(getDecks()))
-    //   .then(this.props.navigation.navigate('New Deck'))
-    //   .then(console.log('submitted'))
-      // saveDeckTitle(value)
-      console.log('Decks: ', getDecks())
-      this.setState({value: ''})
+      : saveDeckTitle(value)
+        this.setState({value: ''})
+     console.log('----------------------------------')
+    })
+      
     
 
     // AsyncStorage.saveDeckTitle
     //check if existing title
 
     // route to the new deck
-    
+    // this.props.navigation.navigate('New Deck')
 
     
   }
