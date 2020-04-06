@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { StyleSheet, Text, View, StatusBar, AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -8,6 +8,7 @@ import Quiz from './components/Quiz'
 import NewDeck from './components/NewDeck'
 import NewCard from './components/NewCard'
 import Deck from './components/Deck'
+import { FLASHCARD_STORAGE_KEY } from './utils/api'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -47,6 +48,9 @@ function Tabs() {
 const Stack = createStackNavigator()
 
 export default class App extends React.Component {
+//   componentDidMount() {
+//     AsyncStorage.clear()
+//   }
   render() {
     return (
       <View style={{flex: 1}}>

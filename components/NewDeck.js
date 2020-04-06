@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native'
+import { saveDeckTitle, getDecks } from '../utils/api'
+import { formatDeck } from '../utils/helpers'
 
 class NewDeck extends Component {
   state = {
@@ -11,14 +13,34 @@ class NewDeck extends Component {
   }
 
   submitDeckTitle = () => {
+    const { value } = this.state
+
+
+    Object.keys(getDecks()).some((e) => e === value)
+        ? Alert.alert(
+          'Error',
+          'Already existing title',
+          [{text: 'OK', onPress: () => console.log('OK Pressed')},],
+          {cancelable: false},
+        )
+        : saveDeckTitle(value)
+
+    // return saveDeckTitle(value)
+    //   .then(console.log(getDecks()))
+    //   .then(this.props.navigation.navigate('New Deck'))
+    //   .then(console.log('submitted'))
+      // saveDeckTitle(value)
+      console.log('Decks: ', getDecks())
+      this.setState({value: ''})
+    
 
     // AsyncStorage.saveDeckTitle
     //check if existing title
 
     // route to the new deck
-    this.props.navigation.navigate('Deck')
+    
 
-    console.log('submitted')
+    
   }
 
   render() {
