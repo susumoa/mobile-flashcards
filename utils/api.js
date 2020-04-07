@@ -46,8 +46,7 @@ export function addCardToDeck(deckTitle, question, answer) {
               question: question,
               answer: answer,
             }
-          ],
-          ...data[deckTitle].lastTried
+          ]
         }
       }
       return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(deck))
@@ -63,10 +62,6 @@ export function addLastTriedDate(deckTitle, date) {
       const data = JSON.parse(decks)
       const deck = {
         [deckTitle]: {
-          title: deckTitle,
-          questions: [
-            ...data[deckTitle].questions,
-          ],
           lastTried: date
         }
       }

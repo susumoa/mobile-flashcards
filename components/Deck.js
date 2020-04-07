@@ -32,6 +32,14 @@ function Deck(props) {
         >
           <Text>Start Quiz</Text>
         </TouchableOpacity>
+        {numOfCards !== 0 &&
+        <TouchableOpacity
+          style={styles.quizBtn}
+          onPress={() => props.navigation.navigate('Card List', {deck: deck})}
+        >
+          <Text>view Cards</Text>
+        </TouchableOpacity>
+        }
       </View>
     </View>
   )

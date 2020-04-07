@@ -8,6 +8,7 @@ import Quiz from './components/Quiz'
 import NewDeck from './components/NewDeck'
 import NewCard from './components/NewCard'
 import Deck from './components/Deck'
+import CardList from './components/CardList'
 
 const Tab = createMaterialTopTabNavigator()
 
@@ -78,6 +79,10 @@ class App extends React.Component {
             <Stack.Screen
               name='Quiz'
               component={Quiz}
+            />
+            <Stack.Screen
+              name='Card List'
+              component={CardList}
             />
           </Stack.Navigator>
         </NavigationContainer>

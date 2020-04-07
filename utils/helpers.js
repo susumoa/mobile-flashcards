@@ -7,7 +7,8 @@ export function formatDeck( title, question, answer ) {
           question: question,
           answer: answer,
         }
-      ]
+      ],
+      lastTried: date
     },
   }
 }
