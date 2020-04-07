@@ -3,10 +3,11 @@ import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 
 class DeckTeaser extends Component {
   render() {
+    const { title, numOfCards } = this.props
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Deck Title</Text>
-        <Text style={styles.center}>{3} cards</Text>
+        <Text style={styles.header}>{title}</Text>
+        <Text style={styles.center}>{numOfCards} cards</Text>
       </View>
     )
   }

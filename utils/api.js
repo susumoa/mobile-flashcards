@@ -10,12 +10,12 @@ export function getDecks() {
     })
 }
 
-// export function getDeck(id) {
-//   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
-//     .then((decks) => {
-//       return decks[id]
-//     })
-// }
+export function getDeck(id) {
+  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
+    .then((decks) => {
+      return JSON.parse(decks)[id]
+    })
+}
 
 export function saveDeckTitle(deckTitle) {
   const deck = {

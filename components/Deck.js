@@ -1,12 +1,30 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { getDeck } from '../utils/api'
+import DeckTeaser from './DeckTeaser'
 
 class Deck extends Component {
+  state = {
+    deck: {}
+  }
+
+  componentDidMount() {
+    const { deckId } = this.props.route.params
+    console.log('Deck id: ', deckId)
+    getDeck(deckId).then(res => {
+      console.log('Deck mount res: ', res)
+      this.setState({deck: res})
+    })
+  }
+
   render() {
+    const { deck } = this.state
+
+    const numOfCards = deck.questions ? deck.questions.length : 0
+
     return (
       <View style={styles.container}>
-        <Text style={styles.header}>Deck Title</Text>
-        <Text style={styles.center}>{3} cards</Text>
+        <DeckTeaser title={deck.title} numOfCards={numOfCards} />
         <View>
           <TouchableOpacity style={styles.addBtn} onPress={() => this.props.navigation.navigate('New Card')}>
             <Text>Add Card</Text>

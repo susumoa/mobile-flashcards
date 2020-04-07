@@ -16,18 +16,27 @@ class NewDeck extends Component {
     const { value } = this.state
 
    getDecks().then(res => {
-     console.log('Decks before: ', res)
-     Object.keys(res).some(e => e === value)
-      ? Alert.alert(
+    console.log('Decks before: ', res)
+    if (res === null) {
+      saveDeckTitle(value)
+      this.props.navigation.navigate('Deck List')
+      this.setState({value: ''})
+    } else {
+      if (Object.keys(res).some(e => e === value)) {
+        Alert.alert(
           'Error',
           'Already existing deck',
           [{text: 'OK', onPress: () => console.log('OK Pressed')},],
           {cancelable: false},
         )
-      : saveDeckTitle(value)
+      } else {
+        saveDeckTitle(value)
+        this.props.navigation.navigate('Deck List')
         this.setState({value: ''})
-        this.props.navigation.navigate('Deck')
-     console.log('----------------------------------')
+      }
+    }
+    
+    console.log('---------------NewDeck-------------------')
     })
   }
 
