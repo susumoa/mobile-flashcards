@@ -28,7 +28,7 @@ class Deck extends Component {
       <View style={styles.container}>
         <DeckTeaser title={deck.title} numOfCards={numOfCards} />
         <View>
-          <TouchableOpacity style={styles.addBtn} onPress={() => this.props.navigation.navigate('New Card')}>
+          <TouchableOpacity style={styles.addBtn} onPress={() => this.props.navigation.navigate('New Card', {deck: deck})}>
             <Text>Add Card</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.quizBtn} onPress={() => this.props.navigation.navigate('Quiz')}>

@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text, TextInput, TouchableOpacity } from 'react-native'
+import { addCardToDeck } from '../utils/api'
 
 class NewCard extends Component {
   state = {
@@ -20,10 +21,16 @@ class NewCard extends Component {
   }
 
   submitCard = () => {
-
+    const { navigation, route } = this.props
+    const { deck } = route.params
+    const { question, answer } = this.state
+    console.log('New card props: ', deck)
     // AsyncStorage.addCardToDeck
+    addCardToDeck(deck.title, question, answer).then(
+      navigation.navigate('Deck', {deckId: deck.title})
+    )
 
-    this.props.navigation.navigate('Deck')
+    
 
     console.log('submitted')
   }

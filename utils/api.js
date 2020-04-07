@@ -32,12 +32,26 @@ export function saveDeckTitle(deckTitle) {
 
 }
 
-// export function addCardToDeck(title, card) {
-//   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
-//     .then((results) => {
-//       const decks = JSON.parse(results)
-//     AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify({
-//       card
-//     }))
-//   })
-// }
+export function addCardToDeck(deckTitle, question, answer) {
+  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
+    .then((decks) => {
+      const data = JSON.parse(decks)
+      // data[deckTitle]
+      const deck = {
+        [deckTitle]: {
+          title: deckTitle,
+          questions: [
+            ...data[deckTitle].questions,
+            {
+              question: question,
+              answer: answer,
+            }
+          ]
+        }
+      }
+      return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(deck))
+        .then((res) => {
+          return res
+        })
+    })
+}
