@@ -10,6 +10,8 @@ function DeckList(props) {
   const [ deckList, setDeckList ] = useState({})
   const isFocused = useIsFocused()
 
+  console.log('-----------Decklist Start------------')
+
   useEffect(() => {
     getDecks().then(res => {
       res === null
@@ -20,7 +22,7 @@ function DeckList(props) {
 
     console.log('Decklist: ', deckList)
     console.log('Object key decklist: ', Object.keys(deckList))
-    console.log('-----------Decklist------------')
+    console.log('-----------Decklist End------------')
 
     return (
       <View>

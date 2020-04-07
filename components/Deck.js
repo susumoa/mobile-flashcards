@@ -10,9 +10,11 @@ class Deck extends Component {
 
   componentDidMount() {
     const { deckId } = this.props.route.params
+    console.log('---------------Deck Start--------------------')
     console.log('Deck id: ', deckId)
     getDeck(deckId).then(res => {
       console.log('Deck mount res: ', res)
+      console.log('---------------Deck End--------------------')
       this.setState({deck: res})
     })
   }
@@ -20,7 +22,7 @@ class Deck extends Component {
   render() {
     const { deck } = this.state
 
-    const numOfCards = deck.questions ? deck.questions.length : 0
+    const numOfCards = deck.questions === undefined ? 0 : deck.questions.length
 
     return (
       <View style={styles.container}>

@@ -13,7 +13,8 @@ export function getDecks() {
 export function getDeck(id) {
   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
     .then((decks) => {
-      return JSON.parse(decks)[id]
+      const data = JSON.parse(decks)
+      return data[id]
     })
 }
 
