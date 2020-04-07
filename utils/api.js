@@ -22,7 +22,8 @@ export function saveDeckTitle(deckTitle) {
   const deck = {
     [deckTitle]: {
       title: deckTitle,
-      questions: []
+      questions: [],
+      lastTried: null
     }
   }
   return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(deck))
@@ -45,7 +46,28 @@ export function addCardToDeck(deckTitle, question, answer) {
               question: question,
               answer: answer,
             }
-          ]
+          ],
+          ...data[deckTitle].lastTried
+        }
+      }
+      return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(deck))
+        .then((res) => {
+          return res
+        })
+    })
+}
+
+export function addLastTriedDate(deckTitle, date) {
+  return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
+    .then((decks) => {
+      const data = JSON.parse(decks)
+      const deck = {
+        [deckTitle]: {
+          title: deckTitle,
+          questions: [
+            ...data[deckTitle].questions,
+          ],
+          lastTried: date
         }
       }
       return AsyncStorage.mergeItem(FLASHCARD_STORAGE_KEY, JSON.stringify(deck))

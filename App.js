@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React from 'react'
 import { StyleSheet, Text, View, StatusBar, AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
@@ -14,33 +14,34 @@ const Tab = createMaterialTopTabNavigator()
 function Tabs() {
   return (
     <Tab.Navigator
-            initialRouteName='Deck List'
-            style={{
-              height: 56,
-              backgroundColor: 'red',
-              shadowColor: 'rgba(0, 0, 0, 0.24)',
-                shadowOffset: {
-                  width: 0,
-                  height: 3
-                },
-                shadowRadius: 6,
-                shadowOpacity: 1,
-            }}
-          >
-            <Tab.Screen
-              name='Deck List'
-              component={DeckList}
-              options={{
-                tabBarLabel: 'Deck List'
-              }}
-            /><Tab.Screen
-            name='New Deck'
-            component={NewDeck}
-            options={{
-              tabBarLabel: 'New Deck'
-            }}
-          />
-          </Tab.Navigator>
+      initialRouteName='Deck List'
+      style={{
+        height: 56,
+        backgroundColor: 'red',
+        shadowColor: 'rgba(0, 0, 0, 0.24)',
+          shadowOffset: {
+            width: 0,
+            height: 3
+          },
+          shadowRadius: 6,
+          shadowOpacity: 1,
+      }}
+    >
+      <Tab.Screen
+        name='Deck List'
+        component={DeckList}
+        options={{
+          tabBarLabel: 'Deck List'
+        }}
+      />
+      <Tab.Screen
+      name='New Deck'
+      component={NewDeck}
+      options={{
+        tabBarLabel: 'New Deck'
+      }}
+      />
+    </Tab.Navigator>
   )
 }
 

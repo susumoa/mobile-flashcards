@@ -11,6 +11,7 @@ function Deck(props) {
   useEffect(() => {
     const { deckId } = props.route.params
     getDeck(deckId).then(res => {
+      console.log('Deck res: ', res)
       setDeck(res)
     })
   }, [isFocused])

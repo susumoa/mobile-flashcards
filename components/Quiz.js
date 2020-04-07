@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons'
+import { addLastTriedDate } from '../utils/api'
 
 class Quiz extends Component {
   state = {
@@ -17,23 +18,29 @@ class Quiz extends Component {
   }
 
   restartQuiz = () => {
+    const { deck } = this.props.route.params
     this.setState({
       showQuestion: true,
-      endOfQuiz: false
+      endOfQuiz: false,
+      cardCounter: 0,
+      pointCounter: 0,
     })
-    this.props.navigation.navigate('Quiz')
+    this.props.navigation.navigate('Quiz', {deck: deck})
   }
 
   userAnswer = (num) => {
     const { deck } = this.props.route.params
-    const { questions } = deck
+    const { title, questions } = deck
     const numOfQuestions = questions.length
     this.setState(prev => ({
       pointCounter: prev.pointCounter + num,
       cardCounter: prev.cardCounter + 1,
       showQuestion: true
     }))
-    if (this.state.cardCounter + 1 === numOfQuestions - 1) {
+    if (this.state.cardCounter + 1 === numOfQuestions) {
+      const fullDate = new Date()
+      const date = `${fullDate.getFullYear()}-${fullDate.getMonth()}-${fullDate.getDay()}`
+      addLastTriedDate(title, date)
       this.setState({
         endOfQuiz: true
       })
@@ -47,10 +54,11 @@ class Quiz extends Component {
   }
 
   render() {
-    const { showQuestion, cardCounter, endOfQuiz } = this.state
+    const { showQuestion, cardCounter, endOfQuiz, pointCounter } = this.state
     const { deck } = this.props.route.params
     const { title, questions } = deck
     const numOfQuestions = questions.length
+    const percentage = Math.round(pointCounter / numOfQuestions * 100)
 
     // console.log('Quiz deck: ', deck)
     // console.log('Points: ', this.state.pointCounter)
@@ -124,6 +132,15 @@ class Quiz extends Component {
             </View>
           : <View>
               <Text>End of quiz</Text>
+              <Text>{pointCounter} out of {numOfQuestions}</Text>
+              <Text>{percentage}%</Text>
+              {percentage >= 50
+                ? <Text>You passed!</Text>
+                : <View>
+                    <Text>You failed</Text>
+                    <Text>Keep learning and try again!</Text>
+                  </View>
+              }
               <TouchableOpacity
                 style={styles.navigationBtn}
                 onPress={() => this.props.navigation.navigate('Deck')}
