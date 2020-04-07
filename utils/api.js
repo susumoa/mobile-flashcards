@@ -36,7 +36,6 @@ export function addCardToDeck(deckTitle, question, answer) {
   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
     .then((decks) => {
       const data = JSON.parse(decks)
-      // data[deckTitle]
       const deck = {
         [deckTitle]: {
           title: deckTitle,

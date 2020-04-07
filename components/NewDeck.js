@@ -18,8 +18,7 @@ function NewDeck(props) {
     console.log('Decks before: ', res)
     if (res === null) {
       saveDeckTitle(value)
-        .then((result) => {
-          console.log('Result: ', result)
+        .then(() => {
           getDeck(value).then(r => {
             console.log('Deck after: ', r)
             props.navigation.navigate('Deck', {deckId: r.title})
@@ -36,8 +35,7 @@ function NewDeck(props) {
         )
       } else {
         saveDeckTitle(value)
-        .then((result) => {
-          console.log('Result: ', result)
+        .then(() => {
           getDeck(value).then(r => {
             console.log('Deck after: ', r)
             props.navigation.navigate('Deck', {deckId: r.title})
