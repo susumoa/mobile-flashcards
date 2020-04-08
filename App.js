@@ -1,5 +1,5 @@
 import React from 'react'
-import { StyleSheet, Text, View, StatusBar } from 'react-native'
+import { StyleSheet, View, StatusBar, AsyncStorage, Dimensions } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
@@ -17,23 +17,18 @@ function Tabs() {
   return (
     <Tab.Navigator
       initialRouteName='Deck List'
-      style={{
-        height: 56,
-        backgroundColor: 'red',
-        shadowColor: 'rgba(0, 0, 0, 0.24)',
-          shadowOffset: {
-            width: 0,
-            height: 3
-          },
-          shadowRadius: 6,
-          shadowOpacity: 1,
+      tabBarOptions={{
+        style: { backgroundColor: '#f1f9f9' },
+      }}
+      sceneContainerStyle={{
+        backgroundColor: '#f3f9fd'
       }}
     >
       <Tab.Screen
         name='Deck List'
         component={DeckList}
         options={{
-          tabBarLabel: 'Deck List'
+          tabBarLabel: 'Deck List',
         }}
       />
       <Tab.Screen
@@ -56,16 +51,19 @@ class App extends React.Component {
   }
   render() {
     return (
-      <View style={{flex: 1}}>
-      <StatusBar />
+      <View style={styles.container}>
+        <StatusBar backgroundColor='#f1f9f9' barStyle='dark-content' />
         <NavigationContainer>
           <Stack.Navigator
             initialRouteName='Home'
             headerMode='screen'
             screenOptions={{
-              headerTintColor: 'white',
-              headerStyle: { backgroundColor: 'tomato' },
+              headerTintColor: '#666666',
               headerTitleAlign: 'center',
+              headerStyle: { backgroundColor: '#f1f9f9' },
+              cardStyle: {
+                backgroundColor: '#f3f9fd'
+              }
             }}
           >
             <Stack.Screen
@@ -78,17 +76,20 @@ class App extends React.Component {
             <Stack.Screen
               name='Deck'
               component={Deck}
-              options={({ route }) => ({ title: `${route.params.deckId}`})}
+              options={{
+                title: '',
+              }}
             />
             <Stack.Screen
               name='New Card'
               component={NewCard}
-              options={({ route }) => ({ title: `${route.params.deck.title}`})}
+              options={{
+                title: 'Add Card'
+              }}
             />
             <Stack.Screen
               name='Quiz'
               component={Quiz}
-              options={({ route }) => ({ title: `${route.params.deck.title} Quiz`})}
             />
             <Stack.Screen
               name='Card List'
@@ -101,5 +102,11 @@ class App extends React.Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+})
 
 export default App

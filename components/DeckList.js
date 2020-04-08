@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
-import DeckTeaser from './DeckTeaser'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 import { getDecks } from '../utils/api'
+import DeckTeaser from './DeckTeaser'
 
 
 function DeckList(props) {
@@ -27,14 +27,17 @@ function DeckList(props) {
     }
 
     return (
-      <View style={{flex: 1}}>
+      <View>
         {Object.keys(deckList).length === 0 || deckList === undefined
           ? <Text>No decks to show</Text>
           : <FlatList
             data={Object.keys(deckList)}
             keyExtractor={item => deckList[item].title}
             renderItem={({item}) => (
-              <TouchableOpacity onPress={() => props.navigation.navigate('Deck', {deckId: deckList[item].title})}>
+              <TouchableOpacity
+                style={styles.deckContainer}
+                onPress={() => props.navigation.navigate('Deck', {deckId: deckList[item].title})}
+              >
                 <DeckTeaser title={deckList[item].title} numOfCards={deckList[item].questions ? deckList[item].questions.length : 0} />
               </TouchableOpacity>
             )}
@@ -42,7 +45,19 @@ function DeckList(props) {
         }
       </View>
     )
-
 }
+
+const styles = StyleSheet.create({
+  deckContainer: {
+    margin: 20,
+    marginBottom: 0,
+    padding: 10,
+    borderRadius: 10,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 1,
+    backgroundColor: '#e1f2fb',
+  },
+})
 
 export default DeckList

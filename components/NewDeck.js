@@ -5,8 +5,6 @@ import { saveDeckTitle, getDecks, getDeck } from '../utils/api'
 function NewDeck(props) {
   const [value, setValue] = useState('')
 
-  
-
   onChange = (value) => {
     setValue(value)
   }
@@ -30,45 +28,79 @@ function NewDeck(props) {
             {cancelable: false},
           )
         } else {
-          saveDeckTitle(value)
-          .then(() => {
-            getDeck(value).then(r => {
-              props.navigation.navigate('Deck', {deckId: r.title})
-            })
-            setValue('')
-          })
+          if (value !== '') {
+            saveDeckTitle(value)
+              .then(() => {
+                getDeck(value).then(r => {
+                  props.navigation.navigate('Deck', {deckId: r.title})
+                })
+                setValue('')
+              })
+          } else {
+            Alert.alert(
+              '',
+              "Don't forget to give the deck a title",
+              [{text: 'OK', onPress: () => console.log('OK Pressed')},],
+              {cancelable: false},
+            )
+          }
         }
       }
     })
   }
 
   return (
-    <View style={styles.container}>
+    <View>
       <Text style={styles.header}>Create new deck</Text>
-      <TextInput
-        value={value}
-        onChangeText={onChange}
-        placeholder='Deck Title'
-      />
-      <TouchableOpacity onPress={submitDeckTitle}>
-        <Text>Submit New Deck</Text>
-      </TouchableOpacity>
+      <View style={styles.container}>
+        <TextInput
+          style={styles.input}
+          value={value}
+          onChangeText={onChange}
+          placeholder='Deck Title'
+        />
+        <TouchableOpacity
+          onPress={submitDeckTitle}
+          style={styles.submitBtn}
+        >
+          <Text>Submit</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: 'white',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: 30,
-    marginRight: 30,
+    margin: 20,
+    marginBottom: 0,
+    padding: 10,
   },
   header: {
-    fontSize: 35,
+    paddingTop: 20,
+    fontSize: 25,
     textAlign: 'center',
+  },
+  input: {
+    padding: 5,
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: 'white',
+    borderRadius: 2,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 1,
+  },
+  submitBtn: {
+    backgroundColor: '#b4dff5',
+    padding: 10,
+    marginTop: 20,
+    borderRadius: 5,
+    height: 45,
+    width: 100,
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 })
 

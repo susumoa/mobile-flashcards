@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native'
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons'
 import { clearLocalNotification, setLocalNotification } from '../utils/api'
 
@@ -8,13 +8,19 @@ class Quiz extends Component {
     showQuestion: true,
     cardCounter: 0,
     pointCounter: 0,
-    endOfQuiz: false
+    endOfQuiz: false,
+    opacity: new Animated.Value(1)
   }
 
   showOtherSide = () => {
+    const { opacity } = this.state
+      Animated.timing(opacity, {duration: 500, toValue: 0}).start()
+    setTimeout(() => 
+      Animated.timing(opacity, {duration: 1000, toValue: 1}).start(), 500)
+      setTimeout(() =>
     this.setState((prev) => ({
       showQuestion: !prev.showQuestion
-    }))
+    })), 500)
   }
 
   restartQuiz = () => {
@@ -53,7 +59,7 @@ class Quiz extends Component {
   }
 
   render() {
-    const { showQuestion, cardCounter, endOfQuiz, pointCounter } = this.state
+    const { showQuestion, cardCounter, endOfQuiz, pointCounter, opacity } = this.state
     const { deck } = this.props.route.params
     const { title, questions } = deck
     const numOfQuestions = questions.length
@@ -62,9 +68,8 @@ class Quiz extends Component {
     function Question(props) {
       return(
         <View>
-          <Text style={styles.header}>{title} Quiz</Text>
           <Text>{cardCounter + 1}/{numOfQuestions}</Text>
-          <View>
+          <Animated.View style={[styles.container, {opacity}]}>
             <Text>{questions[cardCounter].question}</Text>
             <TouchableOpacity
               onPress={props.showOtherSide}
@@ -72,7 +77,7 @@ class Quiz extends Component {
               >
               <MaterialIcons name='chat-bubble' />
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         </View>
       )
     }
@@ -80,9 +85,8 @@ class Quiz extends Component {
     function Answer(props) {
       return(
         <View>
-          <Text style={styles.header}>{title} Quiz</Text>
           <Text>{cardCounter + 1}/{numOfQuestions}</Text>
-          <View>
+          <Animated.View style={[styles.container, {opacity}]}>
             <Text>{questions[cardCounter].answer}</Text>
             <TouchableOpacity
               onPress={props.showOtherSide}
@@ -90,9 +94,9 @@ class Quiz extends Component {
               >
               <FontAwesome name='question' />
             </TouchableOpacity>
-          </View>
+          </Animated.View>
 
-          <View style={styles.answerBtnContainer}>
+          <Animated.View style={[styles.answerBtnContainer, {opacity}]}>
             <TouchableOpacity
               style={styles.answerBtn}
               onPress={() => props.userAnswer(1)}
@@ -105,13 +109,14 @@ class Quiz extends Component {
             >
               <AntDesign name='closesquare' />
             </TouchableOpacity>
-          </View>
+          </Animated.View>
         </View>
       )
     }
 
     return (
-      <View style={styles.container}>
+      <View>
+        <Text style={styles.header}>{title} Quiz</Text>
         {!endOfQuiz
           ? <View>
               {showQuestion
@@ -156,17 +161,23 @@ class Quiz extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
-    backgroundColor: 'white',
+    padding: 10,
+    margin: 10,
+    borderRadius: 10,
+    borderStyle: 'solid',
+    borderColor: 'black',
+    borderWidth: 1,
+    backgroundColor: '#e1f2fb',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    height: 150,
   },
   cardTurnBtn: {
-    backgroundColor: 'gray',
-    padding: 10,
+    backgroundColor: '#b4dff5',
     borderRadius: 5,
     height: 45,
     width: 45,
-    marginLeft: 40,
-    marginRight: 40,
     alignSelf: 'flex-end',
     justifyContent: 'center',
     alignItems: 'center',
@@ -201,6 +212,16 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  question: {
+    fontSize: 25,
+    textAlign: 'center',
+  },
+  answer: {
+    fontSize: 20,
+    paddingTop: 5,
+    textAlign: 'center',
+    color: '#666666'
   },
 })
 
