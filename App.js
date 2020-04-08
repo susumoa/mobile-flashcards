@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, StatusBar, AsyncStorage } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs'
 import { createStackNavigator } from '@react-navigation/stack'
+import { setLocalNotification } from './utils/api'
 import DeckList from './components/DeckList'
 import Quiz from './components/Quiz'
 import NewDeck from './components/NewDeck'
@@ -49,9 +50,10 @@ function Tabs() {
 const Stack = createStackNavigator()
 
 class App extends React.Component {
-  // componentDidMount() {
-  //   AsyncStorage.clear()
-  // }
+  componentDidMount() {
+    // AsyncStorage.clear()
+    setLocalNotification()
+  }
   render() {
     return (
       <View style={{flex: 1}}>

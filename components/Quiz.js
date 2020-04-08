@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons'
-import { addLastTriedDate } from '../utils/api'
+import { clearLocalNotification, setLocalNotification } from '../utils/api'
 
 class Quiz extends Component {
   state = {
@@ -38,9 +38,8 @@ class Quiz extends Component {
       showQuestion: true
     }))
     if (this.state.cardCounter + 1 === numOfQuestions) {
-      const fullDate = new Date()
-      const date = `${fullDate.getFullYear()}-${fullDate.getMonth()}-${fullDate.getDay()}`
-      addLastTriedDate(title, date)
+      clearLocalNotification()
+        .then(setLocalNotification)
       this.setState({
         endOfQuiz: true
       })
