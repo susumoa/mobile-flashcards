@@ -19,7 +19,7 @@ function Tabs() {
       initialRouteName='Deck List'
       tabBarOptions={{
         style: { backgroundColor: '#5e7f91' },
-        activeTintColor: 'white',
+        activeTintColor: '#fff',
         labelStyle: { fontSize: 18 },
       }}
       sceneContainerStyle={{
@@ -48,6 +48,7 @@ const Stack = createStackNavigator()
 
 class App extends React.Component {
   componentDidMount() {
+    // if need to start over:
     // AsyncStorage.clear()
     setLocalNotification()
   }

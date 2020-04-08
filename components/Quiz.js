@@ -16,7 +16,7 @@ class Quiz extends Component {
   showOtherSide = () => {
     const { opacity } = this.state
     Animated.timing(opacity, {duration: 500, toValue: 0}).start()
-    setTimeout(() => 
+    setTimeout(() =>
       Animated.timing(opacity, {duration: 1000, toValue: 1}).start(), 500)
     setTimeout(() =>
       this.setState((prev) => ({
@@ -41,9 +41,9 @@ class Quiz extends Component {
     const { questions } = deck
     const numOfQuestions = questions.length
     Animated.timing(opacity, {duration: 500, toValue: 0}).start()
-    setTimeout(() => 
+    setTimeout(() =>
       Animated.timing(opacity, {duration: 1000, toValue: 1}).start(), 500)
-    setTimeout(() => 
+    setTimeout(() =>
       this.setState(prev => ({
         pointCounter: prev.pointCounter + num,
         cardCounter: prev.cardCounter + 1,
@@ -145,10 +145,10 @@ class Quiz extends Component {
               <Text style={styles.percentage}>{percentage}%</Text>
               {percentage >= 50
                 ? <View style={styles.endOfQuiz}>
-                    <Text style={{color: '#666666'}}>You passed!</Text>
+                    <Text style={{color: '#666666', fontSize: 20}}>You passed!</Text>
                     </View>
                 : <View style={styles.endOfQuiz}>
-                    <Text style={{color: '#666666'}}>You failed</Text>
+                    <Text style={{color: '#666666', fontSize: 20}}>You failed</Text>
                     <Text style={{color: '#666666'}}>Keep learning and try again!</Text>
                   </View>
               }

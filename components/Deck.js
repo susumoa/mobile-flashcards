@@ -18,19 +18,17 @@ function Deck(props) {
         setStatus(true)
       })}
     )
-    
   }, [isFocused])
 
   const numOfCards = deck.questions === undefined ? 0 : deck.questions.length
 
   const navigateTo = (view) => {
-    
     props.navigation.navigate(view, {deck: deck})
   }
 
   return (
     !status
-      ? <ActivityIndicator /> 
+      ? <ActivityIndicator />
       : <View style={styles.deckContainer}>
       <DeckTeaser title={deck.title} numOfCards={numOfCards} />
       <View>
@@ -54,8 +52,6 @@ function Deck(props) {
         }
       </View>
     </View>
-    
-    
   )
 }
 
@@ -125,9 +121,6 @@ const styles = StyleSheet.create({
     fontSize: 25,
     textAlign: 'center',
     color: '#333333',
-  },
-  center: {
-    textAlign: 'center',
   },
 })
 
