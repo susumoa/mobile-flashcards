@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, ActivityIndicator } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 import { getDeck } from '../utils/api'
 import DeckTeaser from './DeckTeaser'
@@ -7,16 +7,21 @@ import DeckTeaser from './DeckTeaser'
 function Deck(props) {
   const [deck, setDeck] = useState({})
   const isFocused = useIsFocused()
+  const [status, setStatus] = useState(false)
 
   useEffect(() => {
     const { deckId } = props.route.params
     getDeck(deckId).then(res => {
-      console.log('Deck res: ', res)
       setDeck(res)
+      setStatus(true)
     })
   }, [isFocused])
 
   const numOfCards = deck.questions === undefined ? 0 : deck.questions.length
+
+  if (status === false) {
+    return <ActivityIndicator /> 
+  }
 
   return (
     <View style={styles.container}>
@@ -26,7 +31,7 @@ function Deck(props) {
           <Text>Add Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={styles.quizBtn}
+          style={[styles.quizBtn, {backgroundColor: numOfCards === 0 ? 'white' : 'gray'}]}
           disabled={numOfCards === 0 ? true : false}
           onPress={() => props.navigation.navigate('Quiz', {deck: deck})}
         >
@@ -37,7 +42,7 @@ function Deck(props) {
           style={styles.quizBtn}
           onPress={() => props.navigation.navigate('Card List', {deck: deck})}
         >
-          <Text>view Cards</Text>
+          <Text>View Cards</Text>
         </TouchableOpacity>
         }
       </View>

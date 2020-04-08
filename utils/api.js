@@ -8,7 +8,6 @@ const NOTIFICATION_KEY = 'MobileFlashCards:notifications'
 export function getDecks() {
   return AsyncStorage.getItem(FLASHCARD_STORAGE_KEY)
     .then((res) => {
-      // console.log('Parsed decks result: ', JSON.parse(res))
       return JSON.parse(res)
     })
 }
@@ -67,9 +66,6 @@ function createNotification() {
   return {
     title: 'Take a quiz',
     body: "👋 Don't forget to take a quiz today!",
-    ios: {
-      sound: true,
-    },
     android: {
       sound: true,
       priority: 'high',
@@ -83,7 +79,6 @@ export function setLocalNotification() {
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then((data) => {
-      console.log(data)
       if (data === null) {
         Permissions.askAsync(Permissions.NOTIFICATIONS)
           .then(({ status }) => {
@@ -92,8 +87,8 @@ export function setLocalNotification() {
 
               let tomorrow = new Date()
               tomorrow.setDate(tomorrow.getDate() + 1)
-              tomorrow.setHours(10)
-              tomorrow.setMinutes(33)
+              tomorrow.setHours(9)
+              tomorrow.setMinutes(41)
 
               Notifications.scheduleLocalNotificationAsync(
                 createNotification(),

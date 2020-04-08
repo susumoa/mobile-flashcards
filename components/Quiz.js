@@ -30,7 +30,7 @@ class Quiz extends Component {
 
   userAnswer = (num) => {
     const { deck } = this.props.route.params
-    const { title, questions } = deck
+    const { questions } = deck
     const numOfQuestions = questions.length
     this.setState(prev => ({
       pointCounter: prev.pointCounter + num,
@@ -58,11 +58,6 @@ class Quiz extends Component {
     const { title, questions } = deck
     const numOfQuestions = questions.length
     const percentage = Math.round(pointCounter / numOfQuestions * 100)
-
-    // console.log('Quiz deck: ', deck)
-    // console.log('Points: ', this.state.pointCounter)
-    // console.log('Card counter: ', this.state.cardCounter)
-    // console.log('End of quiz: ', this.state.endOfQuiz)
 
     function Question(props) {
       return(

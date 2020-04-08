@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { View, Text, FlatList, StyleSheet } from 'react-native'
+import { View, Text, FlatList, StyleSheet, ActivityIndicator } from 'react-native'
 import { useIsFocused } from '@react-navigation/native'
 import DeckTeaser from './DeckTeaser'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -9,23 +9,25 @@ import { getDecks } from '../utils/api'
 function DeckList(props) {
   const [ deckList, setDeckList ] = useState({})
   const isFocused = useIsFocused()
-
-  console.log('-----------Decklist Start------------')
+  const [status, setStatus] = useState(false)
 
   useEffect(() => {
     getDecks().then(res => {
-      res === null
-        ? setDeckList({})
-        : setDeckList(res)
+      if (res === null) {
+        setDeckList({})
+      } else {
+        setDeckList(res)
+      }
+      setStatus(true)
     })
   }, [isFocused])
 
-    console.log('Decklist: ', deckList)
-    console.log('Object key decklist: ', Object.keys(deckList))
-    console.log('-----------Decklist End------------')
+    if (status === false) {
+      return <ActivityIndicator /> 
+    }
 
     return (
-      <View>
+      <View style={{flex: 1}}>
         {Object.keys(deckList).length === 0 || deckList === undefined
           ? <Text>No decks to show</Text>
           : <FlatList
