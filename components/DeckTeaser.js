@@ -23,10 +23,11 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 35,
     textAlign: 'center',
+    color: '#333333',
   },
   cardNum: {
     textAlign: 'center',
-    color: '#666666'
+    color: '#666666',
   },
 })
 

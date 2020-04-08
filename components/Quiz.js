@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, Animated } from 'react-native'
+import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, ActivityIndicator } from 'react-native'
 import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons'
 import { clearLocalNotification, setLocalNotification } from '../utils/api'
 
@@ -9,17 +9,18 @@ class Quiz extends Component {
     cardCounter: 0,
     pointCounter: 0,
     endOfQuiz: false,
-    opacity: new Animated.Value(1)
+    opacity: new Animated.Value(1),
+    status: true,
   }
 
   showOtherSide = () => {
     const { opacity } = this.state
-      Animated.timing(opacity, {duration: 500, toValue: 0}).start()
+    Animated.timing(opacity, {duration: 500, toValue: 0}).start()
     setTimeout(() => 
       Animated.timing(opacity, {duration: 1000, toValue: 1}).start(), 500)
-      setTimeout(() =>
-    this.setState((prev) => ({
-      showQuestion: !prev.showQuestion
+    setTimeout(() =>
+      this.setState((prev) => ({
+        showQuestion: !prev.showQuestion
     })), 500)
   }
 
@@ -35,31 +36,36 @@ class Quiz extends Component {
   }
 
   userAnswer = (num) => {
+    const { opacity } = this.state
     const { deck } = this.props.route.params
     const { questions } = deck
     const numOfQuestions = questions.length
-    this.setState(prev => ({
-      pointCounter: prev.pointCounter + num,
-      cardCounter: prev.cardCounter + 1,
-      showQuestion: true
-    }))
+    Animated.timing(opacity, {duration: 500, toValue: 0}).start()
+    setTimeout(() => 
+      Animated.timing(opacity, {duration: 1000, toValue: 1}).start(), 500)
+    setTimeout(() => 
+      this.setState(prev => ({
+        pointCounter: prev.pointCounter + num,
+        cardCounter: prev.cardCounter + 1,
+        showQuestion: true
+      })), 500)
     if (this.state.cardCounter + 1 === numOfQuestions) {
       clearLocalNotification()
         .then(setLocalNotification)
       this.setState({
-        endOfQuiz: true
+        endOfQuiz: true,
+        status: false,
       })
+      setTimeout(() => {
+        this.setState({
+          status: true,
+        })
+      }, 500);
     }
   }
 
-  setEndOfQuiz = () => {
-    this.setState({
-      endOfQuiz: false
-    })
-  }
-
   render() {
-    const { showQuestion, cardCounter, endOfQuiz, pointCounter, opacity } = this.state
+    const { showQuestion, cardCounter, endOfQuiz, pointCounter, opacity, status } = this.state
     const { deck } = this.props.route.params
     const { title, questions } = deck
     const numOfQuestions = questions.length
@@ -68,14 +74,14 @@ class Quiz extends Component {
     function Question(props) {
       return(
         <View>
-          <Text>{cardCounter + 1}/{numOfQuestions}</Text>
+          <Text style={styles.questionCounter}>{cardCounter + 1}/{numOfQuestions}</Text>
           <Animated.View style={[styles.container, {opacity}]}>
-            <Text>{questions[cardCounter].question}</Text>
+            <Text style={styles.cardText}>{questions[cardCounter].question}</Text>
             <TouchableOpacity
               onPress={props.showOtherSide}
               style={styles.cardTurnBtn}
-              >
-              <MaterialIcons name='chat-bubble' />
+            >
+              <MaterialIcons name='chat-bubble' style={styles.btnIcon} />
             </TouchableOpacity>
           </Animated.View>
         </View>
@@ -85,14 +91,14 @@ class Quiz extends Component {
     function Answer(props) {
       return(
         <View>
-          <Text>{cardCounter + 1}/{numOfQuestions}</Text>
+          <Text style={styles.questionCounter}>{cardCounter + 1}/{numOfQuestions}</Text>
           <Animated.View style={[styles.container, {opacity}]}>
-            <Text>{questions[cardCounter].answer}</Text>
+            <Text style={styles.cardText}>{questions[cardCounter].answer}</Text>
             <TouchableOpacity
               onPress={props.showOtherSide}
               style={styles.cardTurnBtn}
               >
-              <FontAwesome name='question' />
+              <FontAwesome name='question' style={styles.btnIcon} />
             </TouchableOpacity>
           </Animated.View>
 
@@ -101,17 +107,21 @@ class Quiz extends Component {
               style={styles.answerBtn}
               onPress={() => props.userAnswer(1)}
             >
-              <AntDesign name='checksquare' />
+              <AntDesign name='check' style={styles.btnIcon} />
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.answerBtn}
               onPress={() => props.userAnswer(0)}
             >
-              <AntDesign name='closesquare' />
+              <AntDesign name='close' style={styles.btnIcon} />
             </TouchableOpacity>
           </Animated.View>
         </View>
       )
+    }
+
+    if (status === false) {
+      return <ActivityIndicator /> 
     }
 
     return (
@@ -129,28 +139,30 @@ class Quiz extends Component {
                   />
               }
             </View>
-          : <View>
-              <Text>End of quiz</Text>
-              <Text>{pointCounter} out of {numOfQuestions}</Text>
-              <Text>{percentage}%</Text>
+          : <View style={styles.statistics}>
+              <Text style={styles.header}>Score</Text>
+              <Text style={{color: '#666666'}}>{pointCounter} out of {numOfQuestions}</Text>
+              <Text style={styles.percentage}>{percentage}%</Text>
               {percentage >= 50
-                ? <Text>You passed!</Text>
-                : <View>
-                    <Text>You failed</Text>
-                    <Text>Keep learning and try again!</Text>
+                ? <View style={styles.endOfQuiz}>
+                    <Text style={{color: '#666666'}}>You passed!</Text>
+                    </View>
+                : <View style={styles.endOfQuiz}>
+                    <Text style={{color: '#666666'}}>You failed</Text>
+                    <Text style={{color: '#666666'}}>Keep learning and try again!</Text>
                   </View>
               }
               <TouchableOpacity
                 style={styles.navigationBtn}
                 onPress={() => this.props.navigation.navigate('Deck')}
               >
-                <Text>Back to deck</Text>
+                <Text style={styles.btnText}>Back to deck</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={styles.navigationBtn}
                 onPress={this.restartQuiz}
               >
-                <Text>Restart quiz</Text>
+                <Text style={styles.btnText}>Restart quiz</Text>
               </TouchableOpacity>
             </View>
         }
@@ -160,22 +172,45 @@ class Quiz extends Component {
 }
 
 const styles = StyleSheet.create({
+  percentage: {
+    paddingTop: 10,
+    fontSize: 25,
+    color: '#333'
+  },
+  statistics: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  endOfQuiz: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 15,
+  },
   container: {
-    padding: 10,
+    paddingLeft: 10,
+    paddingTop: 10,
     margin: 10,
+    marginTop: 30,
     borderRadius: 10,
     borderStyle: 'solid',
-    borderColor: 'black',
+    borderColor: '#333333',
     borderWidth: 1,
     backgroundColor: '#e1f2fb',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     flexDirection: 'row',
-    height: 150,
+    minHeight: 150,
+  },
+  questionCounter: {
+    color: '#333333',
+    marginLeft: 10,
   },
   cardTurnBtn: {
-    backgroundColor: '#b4dff5',
-    borderRadius: 5,
+    backgroundColor: '#5e7f91',
+    borderRadius: 9,
+    borderTopRightRadius: 0,
+    borderBottomLeftRadius: 0,
     height: 45,
     width: 45,
     alignSelf: 'flex-end',
@@ -184,10 +219,11 @@ const styles = StyleSheet.create({
   },
   answerBtnContainer: {
     flexDirection: 'row',
-    justifyContent: 'center'
+    justifyContent: 'space-around',
+    margin: 30,
   },
   answerBtn: {
-    backgroundColor: 'gray',
+    backgroundColor: '#5e7f91',
     padding: 10,
     borderRadius: 5,
     height: 45,
@@ -197,14 +233,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   header: {
-    fontSize: 35,
+    paddingTop: 30,
+    paddingBottom: 15,
+    fontSize: 25,
     textAlign: 'center',
-  },
-  center: {
-    textAlign: 'center',
+    color: '#333333',
   },
   navigationBtn: {
-    backgroundColor: 'gray',
+    backgroundColor: '#5e7f91',
     padding: 10,
     borderRadius: 5,
     height: 45,
@@ -212,16 +248,28 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+    margin: 10,
+    marginBottom: 0,
+  },
+  btnText: {
+    color: '#fff',
+  },
+  btnIcon: {
+    color: '#fff',
+    fontSize: 18,
   },
   question: {
     fontSize: 25,
     textAlign: 'center',
   },
-  answer: {
-    fontSize: 20,
-    paddingTop: 5,
-    textAlign: 'center',
-    color: '#666666'
+  cardText: {
+    marginLeft: 5,
+    marginTop: 5,
+    marginBottom: 15,
+    maxWidth: Dimensions.get('window').width - 85,
+    fontSize: 18,
+    textAlign: 'left',
+    color: '#333333'
   },
 })
 

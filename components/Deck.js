@@ -35,21 +35,21 @@ function Deck(props) {
       <DeckTeaser title={deck.title} numOfCards={numOfCards} />
       <View>
         <TouchableOpacity style={styles.addBtn} onPress={() => navigateTo('New Card')}>
-          <Text>Add Card</Text>
+          <Text style={styles.btnText}>Add Card</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={numOfCards === 0 ? styles.disabledQuizBtn : styles.activeQuizBtn}
           disabled={numOfCards === 0 ? true : false}
           onPress={() => navigateTo('Quiz')}
         >
-          <Text>Start Quiz</Text>
+          <Text style={styles.btnText}>Start Quiz</Text>
         </TouchableOpacity>
         {numOfCards !== 0 &&
         <TouchableOpacity
           style={styles.viewCardsBtn}
           onPress={() => navigateTo('Card List')}
         >
-          <Text>View Cards</Text>
+          <Text style={styles.btnText}>View Cards</Text>
         </TouchableOpacity>
         }
       </View>
@@ -67,11 +67,11 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#e1f2fb',
     borderStyle: 'solid',
-    borderColor: 'black',
+    borderColor: '#333333',
     borderWidth: 1,
   },
   addBtn: {
-    backgroundColor: '#b4dff5',
+    backgroundColor: '#5e7f91',
     padding: 10,
     margin: 10,
     marginBottom: 0,
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   activeQuizBtn: {
-    backgroundColor: '#b4dff5',
+    backgroundColor: '#5e7f91',
     padding: 10,
     margin: 10,
     marginBottom: 0,
@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   viewCardsBtn: {
-    backgroundColor: '#b4dff5',
+    backgroundColor: '#5e7f91',
     padding: 10,
     margin: 10,
     borderRadius: 5,
@@ -117,9 +117,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  btnText: {
+    color: '#fff',
+  },
   header: {
-    fontSize: 35,
+    paddingBottom: 30,
+    fontSize: 25,
     textAlign: 'center',
+    color: '#333333',
   },
   center: {
     textAlign: 'center',

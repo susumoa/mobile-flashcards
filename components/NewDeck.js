@@ -63,7 +63,7 @@ function NewDeck(props) {
           onPress={submitDeckTitle}
           style={styles.submitBtn}
         >
-          <Text>Submit</Text>
+          <Text style={styles.btnText}>Submit</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -80,19 +80,20 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     fontSize: 25,
     textAlign: 'center',
+    color: '#333333',
   },
   input: {
     padding: 5,
     paddingLeft: 10,
     paddingRight: 10,
-    backgroundColor: 'white',
+    backgroundColor: '#fff',
     borderRadius: 2,
     borderStyle: 'solid',
-    borderColor: 'black',
+    borderColor: '#333333',
     borderWidth: 1,
   },
   submitBtn: {
-    backgroundColor: '#b4dff5',
+    backgroundColor: '#5e7f91',
     padding: 10,
     marginTop: 20,
     borderRadius: 5,
@@ -101,6 +102,9 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  btnText: {
+    color: '#fff',
   },
 })
 

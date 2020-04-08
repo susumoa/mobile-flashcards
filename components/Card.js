@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     backgroundColor: '#e1f2fb',
     borderStyle: 'solid',
-    borderColor: 'black',
+    borderColor: '#333333',
     borderWidth: 1,
   },
   question: {

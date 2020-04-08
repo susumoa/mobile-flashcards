@@ -18,7 +18,9 @@ function Tabs() {
     <Tab.Navigator
       initialRouteName='Deck List'
       tabBarOptions={{
-        style: { backgroundColor: '#f1f9f9' },
+        style: { backgroundColor: '#5e7f91' },
+        activeTintColor: 'white',
+        labelStyle: { fontSize: 18 },
       }}
       sceneContainerStyle={{
         backgroundColor: '#f3f9fd'
@@ -52,15 +54,15 @@ class App extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <StatusBar backgroundColor='#f1f9f9' barStyle='dark-content' />
+        <StatusBar backgroundColor='#5e7f91' barStyle='light-content' />
         <NavigationContainer>
           <Stack.Navigator
             initialRouteName='Home'
             headerMode='screen'
             screenOptions={{
-              headerTintColor: '#666666',
+              headerTintColor: '#fff',
               headerTitleAlign: 'center',
-              headerStyle: { backgroundColor: '#f1f9f9' },
+              headerStyle: { backgroundColor: '#5e7f91' },
               cardStyle: {
                 backgroundColor: '#f3f9fd'
               }
