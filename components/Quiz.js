@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { View, Text, TouchableOpacity, StyleSheet, Animated, Dimensions, ActivityIndicator } from 'react-native'
-import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons'
 import { clearLocalNotification, setLocalNotification } from '../utils/api'
+import Question from '../components/Question'
+import Answer from '../components/Answer'
 
 class Quiz extends Component {
   state = {
@@ -71,55 +72,6 @@ class Quiz extends Component {
     const numOfQuestions = questions.length
     const percentage = Math.round(pointCounter / numOfQuestions * 100)
 
-    function Question(props) {
-      return(
-        <View>
-          <Text style={styles.questionCounter}>{cardCounter + 1}/{numOfQuestions}</Text>
-          <Animated.View style={[styles.container, {opacity}]}>
-            <Text style={styles.cardText}>{questions[cardCounter].question}</Text>
-            <TouchableOpacity
-              onPress={props.showOtherSide}
-              style={styles.cardTurnBtn}
-            >
-              <MaterialIcons name='chat-bubble' style={styles.btnIcon} />
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
-      )
-    }
-
-    function Answer(props) {
-      return(
-        <View>
-          <Text style={styles.questionCounter}>{cardCounter + 1}/{numOfQuestions}</Text>
-          <Animated.View style={[styles.container, {opacity}]}>
-            <Text style={styles.cardText}>{questions[cardCounter].answer}</Text>
-            <TouchableOpacity
-              onPress={props.showOtherSide}
-              style={styles.cardTurnBtn}
-              >
-              <FontAwesome name='question' style={styles.btnIcon} />
-            </TouchableOpacity>
-          </Animated.View>
-
-          <Animated.View style={[styles.answerBtnContainer, {opacity}]}>
-            <TouchableOpacity
-              style={styles.answerBtn}
-              onPress={() => props.userAnswer(1)}
-            >
-              <AntDesign name='check' style={styles.btnIcon} />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={styles.answerBtn}
-              onPress={() => props.userAnswer(0)}
-            >
-              <AntDesign name='close' style={styles.btnIcon} />
-            </TouchableOpacity>
-          </Animated.View>
-        </View>
-      )
-    }
-
     if (status === false) {
       return <ActivityIndicator /> 
     }
@@ -132,10 +84,18 @@ class Quiz extends Component {
               {showQuestion
                 ? <Question
                     showOtherSide={this.showOtherSide}
+                    cardCounter={cardCounter}
+                    numOfQuestions={numOfQuestions}
+                    opacity={opacity}
+                    questions={questions}
                   />
                 : <Answer
                     showOtherSide={this.showOtherSide}
                     userAnswer={this.userAnswer}
+                    cardCounter={cardCounter}
+                    numOfQuestions={numOfQuestions}
+                    opacity={opacity}
+                    questions={questions}
                   />
               }
             </View>
@@ -172,72 +132,27 @@ class Quiz extends Component {
 }
 
 const styles = StyleSheet.create({
-  percentage: {
-    paddingTop: 10,
-    fontSize: 25,
-    color: '#333'
-  },
-  statistics: {
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  endOfQuiz: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 15,
-  },
-  container: {
-    paddingLeft: 10,
-    paddingTop: 10,
-    margin: 10,
-    marginTop: 30,
-    borderRadius: 10,
-    borderStyle: 'solid',
-    borderColor: '#333333',
-    borderWidth: 1,
-    backgroundColor: '#e1f2fb',
-    justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    flexDirection: 'row',
-    minHeight: 150,
-  },
-  questionCounter: {
-    color: '#333333',
-    marginLeft: 10,
-  },
-  cardTurnBtn: {
-    backgroundColor: '#5e7f91',
-    borderRadius: 9,
-    borderTopRightRadius: 0,
-    borderBottomLeftRadius: 0,
-    height: 45,
-    width: 45,
-    alignSelf: 'flex-end',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  answerBtnContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    margin: 30,
-  },
-  answerBtn: {
-    backgroundColor: '#5e7f91',
-    padding: 10,
-    borderRadius: 5,
-    height: 45,
-    width: 45,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   header: {
     paddingTop: 30,
     paddingBottom: 15,
     fontSize: 25,
     textAlign: 'center',
     color: '#333333',
+  },
+  statistics: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  percentage: {
+    paddingTop: 10,
+    fontSize: 25,
+    color: '#333'
+  },
+  endOfQuiz: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 10,
+    marginBottom: 15,
   },
   navigationBtn: {
     backgroundColor: '#5e7f91',
@@ -253,23 +168,6 @@ const styles = StyleSheet.create({
   },
   btnText: {
     color: '#fff',
-  },
-  btnIcon: {
-    color: '#fff',
-    fontSize: 18,
-  },
-  question: {
-    fontSize: 25,
-    textAlign: 'center',
-  },
-  cardText: {
-    marginLeft: 5,
-    marginTop: 5,
-    marginBottom: 15,
-    maxWidth: Dimensions.get('window').width - 85,
-    fontSize: 18,
-    textAlign: 'left',
-    color: '#333333'
   },
 })
 
