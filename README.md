@@ -28,7 +28,7 @@ The tab bar shows the Deck list tab as selected. If the user created  decks, the
 
 ![newd deck](./screenshots/new_deck.png)
 
-The tab bar shows the New deck tab as selected. To create a new deck, add a title to the deck and submit. If the input field is empty when the submit button is pressed, a pop up alert appears. Correctly submitting the deck routes to the newly created deck.
+The tab bar shows the New deck tab as selected. To create a new deck, add a title to the deck and submit. If the input field is empty when the submit button is pressed, a pop up alert appears. If the title is an already existing deck title, a pop up alert appears. Correctly submitting the deck routes to the newly created deck.
 
 ### Deck view
 
@@ -44,19 +44,19 @@ The deck's title, the number of cards in the deck, the Add card button and the S
 
 The decks title, the number of cards in the deck, the Add card button and the Start quiz button are shown. If there are cards in the deck, a third button appears, called View cards.
 
-### New card
+### New card view
 
 ![new card](./screenshots/new_card.png)
 
 The header is Add Card. The deck's title, two input fields and a Submit button are shown. The first input field is for the question, the second is for the answer. If any of the input fields are empty upon submitting the card, a pop up alert asks for a question or an answer. Submitting the card routes back to the deck.
 
-### Card list
+### Card list view
 
 ![card list](./screenshots/card_list.png)
 
 The header is the deck's title card list. The cards from the deck are shown in chronological order so the user can read them through.
 
-### Quiz
+### Quiz view
 
 #### Question
 
