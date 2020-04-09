@@ -1,6 +1,6 @@
 # Mobile Flashcards Project
 
-This is the final assessment project for Udacity's React Native course, the Mobile Flashcards study app, where the user can decks of cards and take quizes.
+This is the final assessment project for Udacity's React Native course, the Mobile Flashcards study app, where the user can make decks of cards and take quizzes.
 
 ## To get started
 
